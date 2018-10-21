@@ -10,7 +10,7 @@ def insertionSort(array):
 		i = j - 1
 		while i >= 0 and array[i] > key:
 			array[i + 1] = array[i]
-			i = i - 1
+			i -= 1
 		array[i + 1] = key
 
 def main():
