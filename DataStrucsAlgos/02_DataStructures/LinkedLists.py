@@ -2,8 +2,14 @@
 
 
 class Node:
-    pass
+    def __init__(self, value=None):
+        self.value = value
+        self.next = None
 
 
 class Linkedlist:
-    pass
+    def __init__(self):
+        self.head = Node()
+        self.next = None
+
+    def append(self, value):
