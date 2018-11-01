@@ -22,10 +22,8 @@ class Linkedlist:
     def __getitem__(self, index):
         try:
             cur_node = self.head
-            counter = 0
-            while counter <= index:
+            for _ in range(index + 1):
                 cur_node = cur_node.next
-                counter += 1
             return cur_node.value
         except (KeyError, AttributeError):
             print('Index out of range')
