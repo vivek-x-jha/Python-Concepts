@@ -19,6 +19,17 @@ class Linkedlist:
         self.tail = new_node
         self.length += 1
 
+    def __getitem__(self, index):
+        try:
+            cur_node = self.head
+            counter = 0
+            while counter <= index:
+                cur_node = cur_node.next
+                counter += 1
+            return cur_node.value
+        except (KeyError, AttributeError):
+            print('Index out of range')
+
     def __repr__(self):
         values = []
         cur_node = self.head
@@ -32,7 +43,13 @@ class Linkedlist:
 
 
 ll = Linkedlist()
+print(ll.head.value, ll.tail.value)
 ll.append(-3)
+print(ll.head.value, ll.tail.value)
 ll.append(1)
+print(ll.head.value, ll.tail.value)
+ll.append(0)
+print(ll.head.value, ll.tail.value)
+print(ll[2])
 print(len(ll))
 print(ll)
