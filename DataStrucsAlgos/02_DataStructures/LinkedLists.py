@@ -8,46 +8,78 @@ class Node:
 
 
 class Linkedlist:
-    def __init__(self):
+    def __init__(self, *args):
         self.head = Node()
         self.tail = self.head
         self.length = 0
+        self._args = args
+        if len(self._args) > 0:
+            for val in self._args:
+                self.append(val)
 
-    def append(self, value):
-        new_node = Node(value)
-        self.tail.next = new_node
-        self.tail = new_node
-        self.length += 1
+    def __len__(self):
+        return self.length
 
     def __getitem__(self, index):
+        # TODO: When index is negative and larger than length returns head node value
         try:
             cur_node = self.head
-            for _ in range(index + 1):
+            for _ in range(index):
                 cur_node = cur_node.next
             return cur_node.value
-        except (KeyError, AttributeError):
-            print('Index out of range')
+        except AttributeError:
+            return f'Error: Index {index} out of range'
 
     def __repr__(self):
         values = []
         cur_node = self.head
         while cur_node.next is not None:
-            cur_node = cur_node.next
             values.append(cur_node.value)
+            cur_node = cur_node.next
         return str(values)
 
-    def __len__(self):
-        return self.length
+    def append(self, value):
+        if self.head.value is None:
+            self.head.value = value
+        else:
+            new_node = Node(value)
+            self.tail.next = new_node
+            self.tail = new_node
+        self.length += 1
+
+    def prepend(self, value):
+        if self.head.value is None:
+            self.head.value = value
+        else:
+            new_node = Node(value)
+            new_node.next = self.head
+            self.head = new_node
+        self.length += 1
 
 
-ll = Linkedlist()
-print(ll.head.value, ll.tail.value)
-ll.append(-3)
-print(ll.head.value, ll.tail.value)
-ll.append(1)
-print(ll.head.value, ll.tail.value)
-ll.append(0)
-print(ll.head.value, ll.tail.value)
-print(ll[2])
-print(len(ll))
-print(ll)
+def main():
+    lnk = Linkedlist()
+    print(lnk.head.value, lnk.tail.value)
+    lnk.append(-3)
+    print(lnk.head.value, lnk.tail.value)
+    lnk.append(1)
+    print(lnk.head.value, lnk.tail.value)
+    lnk.append(0)
+    print(lnk.head.value, lnk.tail.value)
+    lnk.prepend(6)
+    print(lnk.head.value, lnk.tail.value)
+    print(lnk[-4])
+    print(len(lnk))
+    print(lnk)
+
+    lnk2 = Linkedlist(1, 2, -6, 0, 2)
+    print(lnk2)
+    print(lnk2.head.value, lnk2.tail.value)
+    print(len(lnk2))
+    lnk2.prepend(6)
+    print(lnk2.head.value, lnk2.tail.value)
+    # print(lnk)
+
+
+if __name__ == '__main__':
+    main()
