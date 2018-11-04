@@ -33,7 +33,7 @@ class Linkedlist:
     def __repr__(self):
         values = []
         cur_node = self.head
-        while cur_node.next is not None:
+        for _ in range(len(self)):
             values.append(cur_node.value)
             cur_node = cur_node.next
         return str(values)
@@ -72,13 +72,15 @@ def main():
     print(len(lnk))
     print(lnk)
 
-    lnk2 = Linkedlist(1, 2, -6, 0, 2)
+    lnk2 = Linkedlist(1, -2, -6, 0, 2)
     print(lnk2)
-    print(lnk2.head.value, lnk2.tail.value)
     print(len(lnk2))
+    print(lnk2.head.value, lnk2.tail.value)
     lnk2.prepend(6)
     print(lnk2.head.value, lnk2.tail.value)
-    # print(lnk)
+    print(lnk2)
+    print(len(lnk2))
+    print(lnk2[2])
 
 
 if __name__ == '__main__':
