@@ -11,17 +11,17 @@ class Linkedlist:
     def __init__(self, *args):
         self.head = Node()
         self.tail = self.head
-        self.length = 0
+        self.size = 0
         self._args = args
         if len(self._args) > 0:
             for val in self._args:
                 self.append(val)
 
     def __len__(self):
-        return self.length
+        return self.size
 
     def __getitem__(self, index):
-        # TODO: When index is negative and larger than length returns head node value
+        # TODO: When index is negative and larger than size returns head node value
         try:
             cur_node = self.head
             for _ in range(index):
@@ -31,19 +31,27 @@ class Linkedlist:
             return f'Error: Index {index} out of range'
 
     def __delitem__(self, index):
-        try:
+        if index >= self.size or index < -self.size:
+            raise IndexError
+        elif index == 0 or index == -self.size:
+            self.head = self.head.next
+        else:
+            if index < 0:
+                index += self.size
             cur_node = self.head
-            for _ in range(index - 2):
+            prev_node_number = 1
+            while prev_node_number < index:
                 cur_node = cur_node.next
+                prev_node_number += 1
             cur_node.next = cur_node.next.next
-            self.length -= 1
-        except AttributeError:
-            return f'Error: Index {index} out of range'
+            if index == self.size - 1:
+                self.tail = cur_node
+        self.size -= 1
 
     def __repr__(self):
         values = []
         cur_node = self.head
-        for _ in range(len(self)):
+        for _ in range(self.size):
             values.append(cur_node.value)
             cur_node = cur_node.next
         return str(values)
@@ -55,7 +63,7 @@ class Linkedlist:
             new_node = Node(value)
             self.tail.next = new_node
             self.tail = new_node
-        self.length += 1
+        self.size += 1
 
     def prepend(self, value):
         if self.head.value is None:
@@ -64,37 +72,57 @@ class Linkedlist:
             new_node = Node(value)
             new_node.next = self.head
             self.head = new_node
-        self.length += 1
+        self.size += 1
 
 
 def main():
-    # lnk = Linkedlist()
-    # print(lnk.head.value, lnk.tail.value)
-    # lnk.append(-3)
-    # print(lnk.head.value, lnk.tail.value)
-    # lnk.append(1)
-    # print(lnk.head.value, lnk.tail.value)
-    # lnk.append(0)
-    # print(lnk.head.value, lnk.tail.value)
-    # lnk.prepend(6)
-    # print(lnk.head.value, lnk.tail.value)
-    # print(lnk[-4])
-    # print(len(lnk))
-    # print(lnk)
+    def disp_attributes(lnk_list_obj):
+        print(f'Linked List: {lnk_list_obj}')
+        print(f'\tSize: {len(lnk_list_obj)}')
+        print(f'\tHead node value: {lnk_list_obj.head.value}')
+        print(f'\tTail node value: {lnk_list_obj.tail.value}')
 
+    print('<< Instantiate empty Linked List >>')
+    lnk = Linkedlist()
+    disp_attributes(lnk)
+
+    print('<< Append -3, 1, 0 to Linked List >>')
+    values = -3, 1, 0
+    for val in values:
+        lnk.append(val)
+        disp_attributes(lnk)
+
+    print('<< Prepend -12 to Linked List >>')
+    lnk.prepend(-12)
+    disp_attributes(lnk)
+
+    print(f'Linked List value at first Node: {lnk[0]}')
+
+    print('<< Instantiate Linked List with values 1, -2, -6, 0, 2 >>')
     lnk2 = Linkedlist(1, -2, -6, 0, 2)
-    print(lnk2)
-    print(len(lnk2))
-    print(lnk2.head.value, lnk2.tail.value)
+    disp_attributes(lnk2)
+
+    print('<< Prepend 6 to Linked List >>')
     lnk2.prepend(6)
-    print(lnk2)
-    print(len(lnk2))
-    print(lnk2.head.value, lnk2.tail.value)
-    print(lnk2[2])
-    del lnk2[4]
-    print(lnk2)
-    print(len(lnk2))
-    print(lnk2.head.value, lnk2.tail.value)
+    disp_attributes(lnk2)
+
+    print(f'Linked List value at second Node: {lnk2[1]}')
+
+    print('<< Delete First Node >>')
+    del lnk2[0]
+    disp_attributes(lnk2)
+
+    print('<< Delete Last Node >>')
+    del lnk2[-1]
+    disp_attributes(lnk2)
+
+    print('<< Append 7 to LinkedList >>')
+    lnk2.append(7)
+    disp_attributes(lnk2)
+
+    print('<< Delete 3rd Node >>')
+    del lnk2[2]
+    disp_attributes(lnk2)
 
 
 if __name__ == '__main__':
