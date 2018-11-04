@@ -30,6 +30,16 @@ class Linkedlist:
         except AttributeError:
             return f'Error: Index {index} out of range'
 
+    def __delitem__(self, index):
+        try:
+            cur_node = self.head
+            for _ in range(index - 2):
+                cur_node = cur_node.next
+            cur_node.next = cur_node.next.next
+            self.length -= 1
+        except AttributeError:
+            return f'Error: Index {index} out of range'
+
     def __repr__(self):
         values = []
         cur_node = self.head
@@ -58,29 +68,33 @@ class Linkedlist:
 
 
 def main():
-    lnk = Linkedlist()
-    print(lnk.head.value, lnk.tail.value)
-    lnk.append(-3)
-    print(lnk.head.value, lnk.tail.value)
-    lnk.append(1)
-    print(lnk.head.value, lnk.tail.value)
-    lnk.append(0)
-    print(lnk.head.value, lnk.tail.value)
-    lnk.prepend(6)
-    print(lnk.head.value, lnk.tail.value)
-    print(lnk[-4])
-    print(len(lnk))
-    print(lnk)
+    # lnk = Linkedlist()
+    # print(lnk.head.value, lnk.tail.value)
+    # lnk.append(-3)
+    # print(lnk.head.value, lnk.tail.value)
+    # lnk.append(1)
+    # print(lnk.head.value, lnk.tail.value)
+    # lnk.append(0)
+    # print(lnk.head.value, lnk.tail.value)
+    # lnk.prepend(6)
+    # print(lnk.head.value, lnk.tail.value)
+    # print(lnk[-4])
+    # print(len(lnk))
+    # print(lnk)
 
     lnk2 = Linkedlist(1, -2, -6, 0, 2)
     print(lnk2)
     print(len(lnk2))
     print(lnk2.head.value, lnk2.tail.value)
     lnk2.prepend(6)
-    print(lnk2.head.value, lnk2.tail.value)
     print(lnk2)
     print(len(lnk2))
+    print(lnk2.head.value, lnk2.tail.value)
     print(lnk2[2])
+    del lnk2[4]
+    print(lnk2)
+    print(len(lnk2))
+    print(lnk2.head.value, lnk2.tail.value)
 
 
 if __name__ == '__main__':
