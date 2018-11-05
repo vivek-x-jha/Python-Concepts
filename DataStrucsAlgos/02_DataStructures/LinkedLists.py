@@ -20,15 +20,28 @@ class Linkedlist:
     def __len__(self):
         return self.size
 
+    def _getPrevNode(self, index):
+        # gets Node previous to given index
+        # i.e. if index is 1, will return Node 0 (1st Node)
+        # i.e. if size of linked list is 6 & index is -3, will return Node 3 (4th Node)
+        if index < 0:
+            index += self.size
+        cur_node = self.head
+        prev_node_number = 1
+        while prev_node_number < index:
+            cur_node = cur_node.next
+            prev_node_number += 1
+        return cur_node
+
     def __getitem__(self, index):
-        # TODO: When index is negative and larger than size returns head node value
-        try:
-            cur_node = self.head
-            for _ in range(index):
-                cur_node = cur_node.next
+        if index >= self.size or index < -self.size:
+            raise IndexError
+        elif index == 0 or index == -self.size:
+            return self.head.value
+        else:
+            prev_node = self._getPrevNode(index)
+            cur_node = prev_node.next
             return cur_node.value
-        except AttributeError:
-            return f'Error: Index {index} out of range'
 
     def __delitem__(self, index):
         if index >= self.size or index < -self.size:
@@ -36,16 +49,10 @@ class Linkedlist:
         elif index == 0 or index == -self.size:
             self.head = self.head.next
         else:
-            if index < 0:
-                index += self.size
-            cur_node = self.head
-            prev_node_number = 1
-            while prev_node_number < index:
-                cur_node = cur_node.next
-                prev_node_number += 1
-            cur_node.next = cur_node.next.next
-            if index == self.size - 1:
-                self.tail = cur_node
+            prev_node = self._getPrevNode(index)
+            prev_node.next = prev_node.next.next
+            if index == -1 or index == self.size - 1:
+                self.tail = prev_node
         self.size -= 1
 
     def __repr__(self):
