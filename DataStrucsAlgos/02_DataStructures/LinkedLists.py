@@ -61,9 +61,9 @@ class Linkedlist:
         values = []
         cur_node = self.head
         for _ in range(self.size):
-            values.append(cur_node.value)
+            values.append(str(cur_node.value))
             cur_node = cur_node.next
-        return str(values)
+        return ' -> '.join(values)
 
     def append(self, value):
         if self.head.value is None:
