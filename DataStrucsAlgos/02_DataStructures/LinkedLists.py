@@ -12,6 +12,7 @@ class Linkedlist:
         self.head = Node()
         self.tail = self.head
         self.size = 0
+        # Nodes indexes defined from 0, 1, ..., N - 1 (where N = self.size) but are counted as First Node, Second Node, ..., Nth-Node respectively
         self._args = args
         if len(self._args) > 0:
             for val in self._args:
@@ -21,9 +22,10 @@ class Linkedlist:
         return self.size
 
     def _getPrevNode(self, index):
-        # gets Node previous to given index
-        # i.e. if index is 1, will return Node 0 (1st Node)
-        # i.e. if size of linked list is 6 & index is -3, will return Node 3 (4th Node)
+        """gets Node previous to given index
+        i.e. if index is 1, will return Node 0 (1st Node)
+        i.e. if size of linked list is 6 & index is -3, will return Node 3 (4th Node)
+        """
         if index < 0:
             index += self.size
         cur_node = self.head
@@ -81,6 +83,21 @@ class Linkedlist:
             self.head = new_node
         self.size += 1
 
+    def insert(self, value, index):
+        # Inserts node with value before given index
+        if abs(index) > self.size:
+            raise IndexError
+        elif index == 0 or index == -self.size:
+            self.prepend(value)
+        elif index == self.size:
+            self.append(value)
+        else:
+            prev_node = self._getPrevNode(index)
+            new_node = Node(value)
+            new_node.next = prev_node.next
+            prev_node.next = new_node
+            self.size += 1
+
 
 def main():
     def disp_attributes(lnk_list_obj):
@@ -129,6 +146,10 @@ def main():
 
     print('<< Delete 3rd Node >>')
     del lnk2[2]
+    disp_attributes(lnk2)
+
+    print('<< Insert -10 before 2nd Node >>')
+    lnk2.insert(-10, 1)
     disp_attributes(lnk2)
 
 
