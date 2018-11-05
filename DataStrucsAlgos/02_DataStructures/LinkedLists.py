@@ -21,7 +21,7 @@ class Linkedlist:
     def __len__(self):
         return self.size
 
-    def _getPrevNode(self, index):
+    def _get_prev_node(self, index):
         """gets Node previous to given index
         i.e. if index is 1, will return Node 0 (1st Node)
         i.e. if size of linked list is 6 & index is -3, will return Node 3 (4th Node)
@@ -41,7 +41,7 @@ class Linkedlist:
         elif index == 0 or index == -self.size:
             return self.head.value
         else:
-            prev_node = self._getPrevNode(index)
+            prev_node = self._get_prev_node(index)
             cur_node = prev_node.next
             return cur_node.value
 
@@ -51,7 +51,7 @@ class Linkedlist:
         elif index == 0 or index == -self.size:
             self.head = self.head.next
         else:
-            prev_node = self._getPrevNode(index)
+            prev_node = self._get_prev_node(index)
             prev_node.next = prev_node.next.next
             if index == -1 or index == self.size - 1:
                 self.tail = prev_node
@@ -92,7 +92,7 @@ class Linkedlist:
         elif index == self.size:
             self.append(value)
         else:
-            prev_node = self._getPrevNode(index)
+            prev_node = self._get_prev_node(index)
             new_node = Node(value)
             new_node.next = prev_node.next
             prev_node.next = new_node
