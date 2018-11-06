@@ -1,101 +1,184 @@
-# Demonstrates implementation of a linked list and helper Node class
-
-
-class Node:
+class _Node:
     def __init__(self, value=None):
-        self.value = value
-        self.next = None
+        __slots__ = ('_value', '_next')
+
+        self._value = value
+        self._next = None
 
 
 class Linkedlist:
+    """A linear container data structure that provides O(1)-time insertion/deletion of items
+    to/from the head and tail of the sequence of values.
+
+    Utilizes _Node object as underlying data structure
+    ----------------------------------------------------
+    Structure of class is as follows:
+
+    Index 0: 1st Node <- Head Node
+    Index 1: 2nd Node
+    Index 2: 3rd Node
+    ...
+    Index n - 1: Nth Node <- Tail Node
+    ----------------------------------------------------
+    Methods:
+    1). __getitem__(self, index)
+
+        Time Complexity: O(n)
+        Space Complexity: O(1)
+
+    2). __delitem__(self, index)
+
+        Time Complexity: O(n)
+        Space Complexity: O(1)
+
+    3). __iter__(self)
+
+        Time Complexity: O(n)
+        Space Complexity: O(1)
+
+    4). __repr__(self)
+
+        Time Complexity: O(n)
+        Space Complexity: O(n)
+
+    5). __str__(self)
+
+        Time Complexity: O(n)
+        Space Complexity: O(n)
+
+    6). append(self, value)
+
+        Time Complexity: O(1)
+        Space Complexity: O(1)
+
+    7). prepend(self, value)
+
+        Time Complexity: O(1)
+        Space Complexity: O(1)
+
+    8). insert(self, value, index)
+
+        Time Complexity: O(n)
+        Space Complexity: O(n)
+    """
+
     def __init__(self, *args):
-        self.head = Node()
+        self.head = _Node()
         self.tail = self.head
         self.size = 0
-        # Nodes indexes defined from 0, 1, ..., N - 1 (where N = self.size) but are counted as First Node, Second Node, ..., Nth-Node respectively
-        self._args = args
-        if len(self._args) > 0:
-            for val in self._args:
-                self.append(val)
+        for val in args:
+            self.append(val)
 
     def __len__(self):
+        """Returns number of non-empty nodes in Linked List"""
         return self.size
 
     def _get_prev_node(self, index):
-        """gets Node previous to given index
-        i.e. if index is 1, will return Node 0 (1st Node)
-        i.e. if size of linked list is 6 & index is -3, will return Node 3 (4th Node)
+        """helper method to obtain Node previous to given index in O(n) time
+        i.e. if index is 1, will return 1st Node
+        i.e. if size of linked list is 6 & index is -3, will return 4th Node
         """
         if index < 0:
             index += self.size
         cur_node = self.head
         prev_node_number = 1
         while prev_node_number < index:
-            cur_node = cur_node.next
+            cur_node = cur_node._next
             prev_node_number += 1
         return cur_node
 
-    def __getitem__(self, index):
+    def _is_head(self, index):
+        """Helper method to determine if given index is head node"""
         if index >= self.size or index < -self.size:
             raise IndexError
-        elif index == 0 or index == -self.size:
-            return self.head.value
+        return index == 0 or index == -self.size
+
+    def _is_tail(self, index):
+        """Helper method to determine if given index is tail node"""
+        if index >= self.size or index < -self.size:
+            raise IndexError
+        return index == -1 or index == self.size - 1
+
+    def _get_values(self):
+        """Helper method to generate string values of all node values"""
+        cur_node = self.head
+        for _ in range(self.size):
+            yield str(cur_node._value)
+            cur_node = cur_node._next
+
+    def __getitem__(self, index):
+        """Getter method to obtain value of a node at given index in O(1) time - this is considering that finding the node is encapsulated by helper method self._get_prev_node(index)
+        """
+        if self._is_head(index):
+            return self.head._value
         else:
             prev_node = self._get_prev_node(index)
-            cur_node = prev_node.next
-            return cur_node.value
+            cur_node = prev_node._next
+            return cur_node._value
 
     def __delitem__(self, index):
-        if index >= self.size or index < -self.size:
-            raise IndexError
-        elif index == 0 or index == -self.size:
-            self.head = self.head.next
+        """Method to delete value of a node at given index in O(1) time - this is considering that finding the node is encapsulated by helper method self._get_prev_node(index)
+        """
+        if self._is_head(index):
+            self.head = self.head._next
         else:
             prev_node = self._get_prev_node(index)
-            prev_node.next = prev_node.next.next
-            if index == -1 or index == self.size - 1:
+            prev_node._next = prev_node._next._next
+            if self._is_tail(index):
                 self.tail = prev_node
         self.size -= 1
 
+    def __iter__(self):
+        """Returns iterator object which user can iterate through"""
+        pass
+
     def __repr__(self):
-        values = []
-        cur_node = self.head
-        for _ in range(self.size):
-            values.append(str(cur_node.value))
-            cur_node = cur_node.next
-        return ' -> '.join(values)
+        """Provides valid Python expression that can be used to recreate an object with the same value"""
+        values = ', '.join(self._get_values())
+        cls_name = type(self).__name__
+        return f'{cls_name}({values})'
+
+    def __str__(self):
+        """Displays printable representation of Linked List"""
+        return ' -> '.join(self._get_values())
 
     def append(self, value):
-        if self.head.value is None:
-            self.head.value = value
+        """Inserts node with given value to end of Linked List in O(1) time"""
+        if self.head._value is None:
+            self.head._value = value
         else:
-            new_node = Node(value)
-            self.tail.next = new_node
+            new_node = _Node(value)
+            self.tail._next = new_node
             self.tail = new_node
         self.size += 1
 
     def prepend(self, value):
-        if self.head.value is None:
-            self.head.value = value
+        """Inserts node with given value to front of Linked List in O(1) time"""
+        if self.head._value is None:
+            self.head._value = value
         else:
-            new_node = Node(value)
-            new_node.next = self.head
+            new_node = _Node(value)
+            new_node._next = self.head
             self.head = new_node
         self.size += 1
 
     def insert(self, value, index):
-        # Inserts node with value before given index
+        """Inserts node with given value at a given index of Linked List in O(n) time.
+        If insertion occurs at head or tail of Linked List, operation becomes O(1).
+        n := len(self)
+        * Index must be in interval [-n, n]
+        """
         if abs(index) > self.size:
             raise IndexError
-        elif index == 0 or index == -self.size:
+        elif self._is_head(index):
             self.prepend(value)
         elif index == self.size:
             self.append(value)
         else:
             prev_node = self._get_prev_node(index)
-            new_node = Node(value)
-            new_node.next = prev_node.next
-            prev_node.next = new_node
+            new_node = _Node(value)
+            new_node._next = prev_node._next
+            prev_node._next = new_node
             self.size += 1
 
 
@@ -103,8 +186,8 @@ def main():
     def disp_attributes(lnk_list_obj):
         print(f'Linked List: {lnk_list_obj}')
         print(f'\tSize: {len(lnk_list_obj)}')
-        print(f'\tHead node value: {lnk_list_obj.head.value}')
-        print(f'\tTail node value: {lnk_list_obj.tail.value}')
+        print(f'\tHead node value: {lnk_list_obj.head._value}')
+        print(f'\tTail node value: {lnk_list_obj.tail._value}')
 
     print('<< Instantiate empty Linked List >>')
     lnk = Linkedlist()
