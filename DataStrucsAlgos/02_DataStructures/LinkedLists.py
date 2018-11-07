@@ -7,7 +7,7 @@ class _Node:
 
 
 class Linkedlist:
-    """A linear container data structure that provides O(1)-time insertion/deletion of items
+    """A linear container data structure that provides O(1) time insertion/deletion of items
     to/from the head and tail of the sequence of values.
 
     Utilizes _Node object as underlying data structure
@@ -33,7 +33,7 @@ class Linkedlist:
 
     3). __iter__(self)
 
-        Time Complexity: O(n)
+        Time Complexity: O(n^2)
         Space Complexity: O(1)
 
     4). __repr__(self)
@@ -66,6 +66,7 @@ class Linkedlist:
         self.head = _Node()
         self.tail = self.head
         self.size = 0
+        self._iter_counter = 1
         for val in args:
             self.append(val)
 
@@ -130,7 +131,18 @@ class Linkedlist:
 
     def __iter__(self):
         """Returns iterator object which user can iterate through"""
-        pass
+        return self
+
+    def __next__(self):
+        """Loops through iterator returning each Node value"""
+        # TODO See if there's a way to improve iteration speed from quadratic to linear
+        cur_node = self.head
+        if self._iter_counter > self.size:
+            self._iter_counter = 1
+            raise StopIteration
+        prev_node = self._get_prev_node(self._iter_counter)
+        self._iter_counter += 1
+        return prev_node._value
 
     def __repr__(self):
         """Provides valid Python expression that can be used to recreate an object with the same value"""
@@ -215,7 +227,7 @@ def main():
 
     print(f'Linked List value at second Node: {lnk2[1]}')
 
-    print('<< Delete First Node >>')
+    print('<< Delete 1st Node >>')
     del lnk2[0]
     disp_attributes(lnk2)
 
