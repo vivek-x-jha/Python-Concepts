@@ -1,11 +1,3 @@
-class _Node:
-    def __init__(self, value=None):
-        __slots__ = ('_value', '_next')
-
-        self._value = value
-        self._next = None
-
-
 class Linkedlist:
     """A linear container data structure that provides O(1) time insertion/deletion of items
     to/from the head and tail of the sequence of values.
@@ -62,17 +54,29 @@ class Linkedlist:
         Space Complexity: O(n)
     """
 
+    class _Node:
+        """Data structure used to implement Linked List - has fields:
+        1. Data value
+        2. Pointer to next node
+        """
+
+        def __init__(self, value=None):
+            __slots__ = ('_value', '_next')
+
+            self._value = value
+            self._next = None
+
     def __init__(self, *args):
-        self.head = _Node()
+        self.head = self._Node()
         self.tail = self.head
-        self.size = 0
+        self._size = 0
         self._iter_counter = 1
         for val in args:
             self.append(val)
 
     def __len__(self):
         """Returns number of non-empty nodes in Linked List"""
-        return self.size
+        return self._size
 
     def _get_prev_node(self, index):
         """helper method to obtain Node previous to given index in O(n) time
@@ -80,7 +84,7 @@ class Linkedlist:
         i.e. if size of linked list is 6 & index is -3, will return 4th Node
         """
         if index < 0:
-            index += self.size
+            index += self._size
         cur_node = self.head
         prev_node_number = 1
         while prev_node_number < index:
@@ -90,20 +94,20 @@ class Linkedlist:
 
     def _is_head(self, index):
         """Helper method to determine if given index is head node"""
-        if index >= self.size or index < -self.size:
+        if index >= self._size or index < -self._size:
             raise IndexError
-        return index == 0 or index == -self.size
+        return index == 0 or index == -self._size
 
     def _is_tail(self, index):
         """Helper method to determine if given index is tail node"""
-        if index >= self.size or index < -self.size:
+        if index >= self._size or index < -self._size:
             raise IndexError
-        return index == -1 or index == self.size - 1
+        return index == -1 or index == self._size - 1
 
     def _get_values(self):
         """Helper method to generate string values of all node values"""
         cur_node = self.head
-        for _ in range(self.size):
+        for _ in range(self._size):
             yield str(cur_node._value)
             cur_node = cur_node._next
 
@@ -127,7 +131,7 @@ class Linkedlist:
             prev_node._next = prev_node._next._next
             if self._is_tail(index):
                 self.tail = prev_node
-        self.size -= 1
+        self._size -= 1
 
     def __iter__(self):
         """Returns iterator object which user can iterate through"""
@@ -137,7 +141,7 @@ class Linkedlist:
         """Loops through iterator returning each Node value"""
         # TODO See if there's a way to improve iteration speed from quadratic to linear
         cur_node = self.head
-        if self._iter_counter > self.size:
+        if self._iter_counter > self._size:
             self._iter_counter = 1
             raise StopIteration
         prev_node = self._get_prev_node(self._iter_counter)
@@ -159,20 +163,20 @@ class Linkedlist:
         if self.head._value is None:
             self.head._value = value
         else:
-            new_node = _Node(value)
+            new_node = self._Node(value)
             self.tail._next = new_node
             self.tail = new_node
-        self.size += 1
+        self._size += 1
 
     def prepend(self, value):
         """Inserts node with given value to front of Linked List in O(1) time"""
         if self.head._value is None:
             self.head._value = value
         else:
-            new_node = _Node(value)
+            new_node = self._Node(value)
             new_node._next = self.head
             self.head = new_node
-        self.size += 1
+        self._size += 1
 
     def insert(self, value, index):
         """Inserts node with given value at a given index of Linked List in O(n) time.
@@ -180,18 +184,18 @@ class Linkedlist:
         n := len(self)
         * Index must be in interval [-n, n]
         """
-        if abs(index) > self.size:
+        if abs(index) > self._size:
             raise IndexError
         elif self._is_head(index):
             self.prepend(value)
-        elif index == self.size:
+        elif index == self._size:
             self.append(value)
         else:
             prev_node = self._get_prev_node(index)
-            new_node = _Node(value)
+            new_node = self._Node(value)
             new_node._next = prev_node._next
             prev_node._next = new_node
-            self.size += 1
+            self._size += 1
 
 
 def main():
