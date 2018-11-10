@@ -200,7 +200,7 @@ class Linkedlist:
 
 def main():
     def disp_attributes(lnk_list_obj):
-        print(f'Linked List: {lnk_list_obj}')
+        print(f'{type(self).__name__}: {lnk_list_obj}')
         print(f'\tSize: {len(lnk_list_obj)}')
         print(f'\tHead node value: {lnk_list_obj.head._value}')
         print(f'\tTail node value: {lnk_list_obj.tail._value}')
