@@ -25,7 +25,7 @@ class Linkedlist:
 
     3). __iter__(self)
 
-        Time Complexity: O(n^2)
+        Time Complexity: O(n²)
         Space Complexity: O(1)
 
     4). __repr__(self)
