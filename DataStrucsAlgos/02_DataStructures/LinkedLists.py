@@ -124,8 +124,11 @@ class Linkedlist:
     def __delitem__(self, index):
         """Method to delete value of a node at given index in O(1) time - this is considering that finding the node is encapsulated by helper method self._get_prev_node(index)
         """
-        if self._is_head(index):
+        if self._is_head(index) and self._size > 1:
             self.head = self.head._next
+        elif self._is_head(index):
+            self.head = self._Node()
+            self.tail = self.head
         else:
             prev_node = self._get_prev_node(index)
             prev_node._next = prev_node._next._next
