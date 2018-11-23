@@ -66,6 +66,13 @@ class Linkedlist:
             self._value = value
             self._next = None
 
+        def __repr__(self):
+            val = self._value if self._value is not None else ''
+            return f'{type(self).__name__}({val})'
+
+        def __str__(self):
+            return str(self._value)
+
     def __init__(self, *args):
         self.head = self._Node()
         self.tail = self.head
@@ -108,7 +115,7 @@ class Linkedlist:
         """Helper method to generate string values of all node values"""
         cur_node = self.head
         for _ in range(self._size):
-            yield str(cur_node._value)
+            yield str(cur_node)
             cur_node = cur_node._next
 
     def __getitem__(self, index):
