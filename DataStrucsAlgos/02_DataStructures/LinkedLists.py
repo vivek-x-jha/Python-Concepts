@@ -73,11 +73,28 @@ class Linkedlist:
         def __str__(self):
             return str(self._value)
 
+    class _Linkedlist_Iterator:
+        """Implements Iteration protocol for Linkedlist class"""
+        
+        def __init__(self, head_node):
+            self._cur_node = head_node
+        
+        def __iter__(self):
+            return self
+
+        def __next__(self):
+            """Loops through iterator returning each Node value"""
+            cur_node = self._cur_node
+            if cur_node is None:
+                raise StopIteration
+            cur_node_val = cur_node._value
+            self._cur_node = cur_node._next
+            return cur_node_val
+
     def __init__(self, *args):
         self.head = self._Node()
         self.tail = self.head
         self._size = 0
-        self._iter_counter = 1
         for val in args:
             self.append(val)
 
@@ -145,18 +162,7 @@ class Linkedlist:
 
     def __iter__(self):
         """Returns iterator object which user can iterate through"""
-        return self
-
-    def __next__(self):
-        """Loops through iterator returning each Node value"""
-        # TODO See if there's a way to improve iteration speed from quadratic to linear
-        cur_node = self.head
-        if self._iter_counter > self._size:
-            self._iter_counter = 1
-            raise StopIteration
-        prev_node = self._get_prev_node(self._iter_counter)
-        self._iter_counter += 1
-        return prev_node._value
+        return self._Linkedlist_Iterator(self.head)
 
     def __repr__(self):
         """Provides valid Python expression that can be used to recreate an object with the same value"""
@@ -261,6 +267,9 @@ def main():
     lnk2.insert(-10, 1)
     disp_attributes(lnk2)
 
+    print('Can iterate through lnk2')
+    for num in lnk2:
+        print(num)
 
 if __name__ == '__main__':
     main()
