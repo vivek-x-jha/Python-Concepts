@@ -75,10 +75,10 @@ class Linkedlist:
 
     class _Linkedlist_Iterator:
         """Implements Iteration protocol for Linkedlist class"""
-        
+
         def __init__(self, head_node):
             self._cur_node = head_node
-        
+
         def __iter__(self):
             return self
 
