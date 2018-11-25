@@ -128,13 +128,6 @@ class Linkedlist:
             raise IndexError
         return index == -1 or index == self._size - 1
 
-    def _get_values(self):
-        """Helper method to generate string values of all node values"""
-        cur_node = self.head
-        for _ in range(self._size):
-            yield str(cur_node)
-            cur_node = cur_node._next
-
     def __getitem__(self, index):
         """Getter method to obtain value of a node at given index in O(1) time - this is considering that finding the node is encapsulated by helper method self._get_prev_node(index)
         """
@@ -166,17 +159,21 @@ class Linkedlist:
 
     def __repr__(self):
         """Provides valid Python expression that can be used to recreate an object with the same value"""
-        values = ', '.join(self._get_values())
         cls_name = type(self).__name__
+        if self._size == 0:
+            return f'{cls_name}()'
+        values = ', '.join(str(val) for val in self)
         return f'{cls_name}({values})'
 
     def __str__(self):
         """Displays printable representation of Linked List"""
-        return ' -> '.join(self._get_values())
+        if self._size == 0:
+            return repr(self)
+        return ' -> '.join(str(val) for val in self)
 
     def append(self, value):
         """Inserts node with given value to end of Linked List in O(1) time"""
-        if self.head._value is None:
+        if self._size == 0:
             self.head._value = value
         else:
             new_node = self._Node(value)
@@ -186,7 +183,7 @@ class Linkedlist:
 
     def prepend(self, value):
         """Inserts node with given value to front of Linked List in O(1) time"""
-        if self.head._value is None:
+        if self._size == 0:
             self.head._value = value
         else:
             new_node = self._Node(value)
@@ -267,9 +264,10 @@ def main():
     lnk2.insert(-10, 1)
     disp_attributes(lnk2)
 
-    print('Can iterate through lnk2')
+    print('Can iterate through lnk2:')
     for num in lnk2:
-        print(num)
+        for val in lnk2:
+            print(num, val ** 2)
 
 if __name__ == '__main__':
     main()
