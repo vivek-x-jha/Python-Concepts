@@ -84,12 +84,13 @@ class Linkedlist:
 
         def __next__(self):
             """Loops through iterator returning each Node value"""
-            cur_node = self._cur_node
-            if cur_node is None:
+            try:
+                cur_node = self._cur_node
+                cur_node_val = cur_node._value
+                self._cur_node = cur_node._next
+                return cur_node_val
+            except AttributeError:
                 raise StopIteration
-            cur_node_val = cur_node._value
-            self._cur_node = cur_node._next
-            return cur_node_val
 
     def __init__(self, *args):
         self.head = self._Node()
@@ -268,6 +269,7 @@ def main():
     for num in lnk2:
         for val in lnk2:
             print(num, val ** 2)
+
 
 if __name__ == '__main__':
     main()
