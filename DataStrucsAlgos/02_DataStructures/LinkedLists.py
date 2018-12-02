@@ -73,7 +73,7 @@ class Linkedlist:
         def __str__(self):
             return str(self._value)
 
-    class _Linkedlist_Iterator:
+    class _LinkedlistIterator:
         """Implements Iteration protocol for Linkedlist class"""
 
         def __init__(self, head_node):
