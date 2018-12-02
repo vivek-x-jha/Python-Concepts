@@ -156,7 +156,7 @@ class Linkedlist:
 
     def __iter__(self):
         """Returns iterator object which user can iterate through"""
-        return self._Linkedlist_Iterator(self.head)
+        return self._LinkedlistIterator(self.head)
 
     def __repr__(self):
         """Provides valid Python expression that can be used to recreate an object with the same value"""
