@@ -99,6 +99,11 @@ class Linkedlist:
         for val in args:
             self.append(val)
 
+    def __bool__(self):
+	    if self._size:
+		    return True
+	    return False
+
     def __len__(self):
         """Returns number of non-empty nodes in Linked List"""
         return self._size
