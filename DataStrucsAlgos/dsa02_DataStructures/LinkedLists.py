@@ -1,4 +1,4 @@
-class Linkedlist:
+class LinkedList:
     """A linear container data structure that provides O(1) time insertion/deletion of items
     to/from the head and tail of the sequence of values.
 
@@ -73,7 +73,7 @@ class Linkedlist:
         def __str__(self):
             return str(self._value)
 
-    class _LinkedlistIterator:
+    class _LinkedListIterator:
         """Implements Iteration protocol for Linkedlist class"""
 
         def __init__(self, head_node):
@@ -158,7 +158,7 @@ class Linkedlist:
 
     def __iter__(self):
         """Returns iterator object which user can iterate through"""
-        return self._LinkedlistIterator(self.head)
+        return self._LinkedListIterator(self.head)
 
     def __repr__(self):
         """Provides valid Python expression that can be used to recreate an object with the same value"""
@@ -222,12 +222,11 @@ def main():
         print(f'\tTail node value: {lnk_list_obj.tail._value}')
 
     print('<< Instantiate empty Linked List >>')
-    lnk = Linkedlist()
+    lnk = LinkedList()
     disp_attributes(lnk)
 
     print('<< Append -3, 1, 0 to Linked List >>')
-    values = -3, 1, 0
-    for val in values:
+    for val in (-3, 1, 0):
         lnk.append(val)
         disp_attributes(lnk)
 
@@ -238,7 +237,7 @@ def main():
     print(f'Linked List value at first Node: {lnk[0]}')
 
     print('<< Instantiate Linked List with values 1, -2, -6, 0, 2 >>')
-    lnk2 = Linkedlist(1, -2, -6, 0, 2)
+    lnk2 = LinkedList(1, -2, -6, 0, 2)
     disp_attributes(lnk2)
 
     print('<< Prepend 6 to Linked List >>')
