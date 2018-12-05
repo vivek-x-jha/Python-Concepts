@@ -133,8 +133,7 @@ class Linkedlist:
         return index == -1 or index == self._size - 1
 
     def __getitem__(self, index):
-        """Getter method to obtain value of a node at given index in O(1) time - this is considering that finding the node is encapsulated by helper method self._get_prev_node(index)
-        """
+        """Getter method to obtain value of a node at given index in O(1) time - this is considering that finding the node is encapsulated by helper method self._get_prev_node(index)"""
         if self._is_head(index):
             return self.head._value
         else:
