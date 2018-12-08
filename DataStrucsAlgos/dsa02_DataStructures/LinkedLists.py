@@ -99,9 +99,6 @@ class LinkedList:
 		for val in args:
 			self.append(val)
 
-	def __bool__(self):
-		return bool(self._size)
-
 	def __contains__(self, item):
 		for val in self:
 			if val == item:
