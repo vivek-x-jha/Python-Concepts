@@ -168,17 +168,12 @@ class LinkedList:
 
 	def __repr__(self):
 		"""Provides valid Python expression that can be used to recreate an object with the same value"""
-		cls_name = type(self).__name__
-		if self._size == 0:
-			return f'{cls_name}()'
-		values = ', '.join(str(val) for val in self)
-		return f'{cls_name}({values})'
+		values = ', '.join(str(val) for val in self) if self._size > 0 else ''
+		return f'{type(self).__name__}({values})'
 
 	def __str__(self):
 		"""Displays printable representation of Linked List"""
-		if self._size == 0:
-			return repr(self)
-		return ' -> '.join(str(val) for val in self)
+		return ' -> '.join(str(val) for val in self) if self._size > 0 else repr(self)
 
 	def append(self, value):
 		"""Inserts node with given value to end of Linked List in O(1) time"""
